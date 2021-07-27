@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -11,12 +11,33 @@ const Login = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
+  useEffect(() => {
+    console.log('EFFECT RUNNING');
+  });
+
+  // useEffect의 dependencies를 [] 빈 배열로 지정하면 최초 렌더링 시 한 번만 함수 실행
+  // 아무것도 넣지 않으면 해당 컴포넌트가 렌더링 될 때마다 함수 실행
+  // dependencies를 넣으면 최초 렌더링과 dependencies가 변할 때마다 함수 실행
+
+  useEffect(() => {
+    // 타이머를 설정해 입력이 끝난 시점에 내용을 체크할 수 있도록 디바운싱 필요
+    // 디바운싱을 생략하면 입력란에 키보드를 칠 때마다 내용을 확인하게 되어 비효율적이다.
+
+    const identifier = setTimeout(() => {
+      console.log("Form Validation!!");
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+    return () => {
+      console.log('CLEANUP');
+      clearTimeout(identifier);
+    };  
+  }, [enteredEmail, enteredPassword]);
+
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
 
-    setFormIsValid(
-      event.target.value.includes('@') && enteredPassword.trim().length > 6
-    );
   };
 
   const passwordChangeHandler = (event) => {
