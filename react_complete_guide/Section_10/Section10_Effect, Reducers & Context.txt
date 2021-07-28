@@ -1,5 +1,7 @@
 Section10. Effect, Reducers & Context
 
+---useEffect hook------------------------------------------------------------------------------------------------
+
 - Working with (Side) effects
 - Managing more complex state with reducers
 - Managing app-wide or component-wide state with context
@@ -29,11 +31,24 @@ dependencies를 넣으면 마운트 시점과 지정한 값이 업데이트 될 
 useEffect는 함수를 반환할 수 있는데 이를 cleanup 함수라고 부른다.
 cleanup 함수는 컴포넌트가 리렌더링된 이후에 실행된다.
 
-props,state 업데이트 -> 컴포넌트 리렌더링 -> 이전 이펙트 cleanup 함수 실행 -> 새로운 이펜트 실행
+props,state 업데이트 -> 컴포넌트 리렌더링 -> 이전 이펙트 cleanup 함수 실행 -> 새로운 이펙트 실행
+
+
+---useReducer hook------------------------------------------------------------------------------------------------
+
+useReducer hoook은 보다 복잡한 state를 다룰 때 사용한다.
+(ex. 다른 state에 의존적인 state를 업데이트할 때)
 
 
 
 
 
+
+
+
+
+
+
+ 
 
 
