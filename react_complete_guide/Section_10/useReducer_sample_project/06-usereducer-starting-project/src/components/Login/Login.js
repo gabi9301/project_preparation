@@ -48,6 +48,9 @@ const Login = (props) => {
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, {value: '', isValid: null});
 
 
+  const {isValid: emailIsValid} = emailState;
+  const {isValid: passwordIsValid} = passwordState;
+
   useEffect(() => {
     console.log('EFFECT RUNNING');
 
@@ -56,25 +59,25 @@ const Login = (props) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const identifier = setTimeout(() => {
-  //     console.log('Checking form validity!');
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log('Checking form validity!');
+      setFormIsValid(
+        emailIsValid && passwordIsValid
+      );
+    }, 500);
 
-  //   return () => {
-  //     console.log('CLEANUP');
-  //     clearTimeout(identifier);
-  //   };
-  // }, [enteredEmail, enteredPassword]);
+    return () => {
+      console.log('CLEANUP');
+      clearTimeout(identifier);
+    };
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event) => {   //이메일에 적히는 값이 바뀔 때
     dispatchEmail({type:'USER_INPUT', val : event.target.value});
 
     setFormIsValid(
-      event.target.value.includes('@') && passwordState.isValid
+      emailState.isValid && passwordState.isValid
     );
   };
 
@@ -82,7 +85,7 @@ const Login = (props) => {
     dispatchPassword({type: 'USER_INPUT', val: event.target.value});
 
     setFormIsValid(
-      emailState.isValid && event.target.value.trim().length > 6
+      emailState.isValid && passwordState.isValid
     );
   };
 
