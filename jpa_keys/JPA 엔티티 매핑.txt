@@ -1,0 +1,68 @@
+
+-객체와 테이블 매핑: @Entity, @Table
+
+-필드와 컬럼 매핑: @Column
+
+-기본 키 매핑: @Id
+
+-연관관계 매핑: @ManyToOne, @JoinColumn
+
+--------------------------------------------------------------------------------------
+@Entity 가 붙은 클래스는 JPA가 관리, 엔티티라 한다.
+
+JPA를 사용해서 테이블과 매핑할 클래스는 @Entity가 필수!
+
+주의)
+기본 생성자를 필수적으로 가져야 한다. (파라미터가 없는 public 또는 protected 생성자)
+
+final 클래스, enum, interface, inner 클래스에선 사용할 수 없다.
+
+저장할 필드에 final을 사용해선 안 된다.
+
+@Entity의 속성에는 name이 있다.
+해당 속성을 통해 JPA에서 사용할 엔티티 이름을 지정한다.
+기본값으론 클래스의 이름을 그대로 사용한다.
+만약 같은 클래스 이름이 없다면 가급적 기본값을 사용한다.
+
+@Table 은 엔티티와 매핑할 테이블을 지정한다.
+속성에는 name, catalog, schema, uniqueConstraints(DDL) 등이 있다.
+
+name 속성은 테이블 이름을 매핑할 때 쓰이며 기본값으론 엔티티의 이름을 사용한다.
+catalog는 데이터베이스 catalog를 매핑할 때,
+schema는 데이터베이스 schema를 매핑할 때,
+uniqueConstraints 는 DDL 생성 시에 유니크 제약 조건을 생성할 때 사용한다.
+
+----------------------------------------------------------------------------------------
+데이터베이스 스키마 생성
+
+JPA는 애플리케이션 로딩 시점에 테이블을 자동 생성해주는 기능을 제공한다.
+
+물론 실제 운영에 적용하기엔 부적합하지만 개발 단계나 로컬 PC 사용하면 유용하다.
+
+적용하는 방법은 
+
+persistence.xml에 <property name="hibernate.hbm2ddl.auto" value="create" /> 속성을 추가하는 것이다.
+
+이렇게 하면 @Entity 어노테이션으로 지정된 클래스를 찾아 그 곳의 매핑 정보에 맞춰 테이블이 생성된다.
+
+<옵션>
+property의 value에 넣는 값 옵션
+
+create - 기존테이블 삭제 후 다시 생성(DROP + CREATE)
+create-drop - create와 같으나 종료시점에 테이블 DROP
+update - 변경분만 반영(운영 DB에 사용하면 안됨)
+validate - 엔티티와 테이블이 정상 매핑되었는지만 확인
+none - 사용하지 않음
+
+DDL 생성 기능을 사용할 때 제약조건을 추가할 수도 있다.
+
+ex)@Column(nullable = false, length = 10)
+
+물론 유니크 제약조건도 추가 가능하다.
+
+@Table(uniqueConstraints = {@UniqueConstraint( name="NAME_AGE_UNIQUE" columnNames = {"NAME", "AGE"} )})
+
+DDL 생성 기능은 DDL을 자동 생성할 때만 사용되며 JPA의 실행 로직에는 영향을 주지 않는다.
+
+
+

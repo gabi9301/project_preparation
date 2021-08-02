@@ -19,7 +19,7 @@ public class JpaMain {
             member.setId(1L);
             member.setName("HelloA");
 
-            em.persist(member);
+            //em.persist(member);
 
             tx.commit();                                //트랜젝션을 커밋
 
