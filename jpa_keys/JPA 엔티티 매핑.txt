@@ -64,5 +64,66 @@ ex)@Column(nullable = false, length = 10)
 
 DDL 생성 기능은 DDL을 자동 생성할 때만 사용되며 JPA의 실행 로직에는 영향을 주지 않는다.
 
+---------------------------------------------------------------------------------------------------
+매핑 어노테이션 정리
+
+hibernate.hbm2ddl.auto
+
+@Column - 컬럼 매핑
+
+@Temporal - 날짜 타입 매핑
+
+@Enumerated - enum 타입 매핑
+
+@Lob - BLOB, CLOB 매핑
+
+@Transient - 특정 필드를 컬럼에 매핑하지 않음(매핑 무시)
+
+
+
+@Column
+
+name - 필드와 매핑할 테이블의 컬럼 이름
+
+insertable, updatable - 등록, 변경 가능 여부
+
+nullable(DDL) - null 값의 허용 여부를 설정한다. false로 설정하면 DDL 생성 시에 not null 제약 조건이 붙는다.
+
+unique(DDL) - @Table 의 uniqueConstraints와 같지만 한 컬럼에 간단한 유니크 제약조건을 걸 때 사용
+
+columnDefinition(DDL) - 데이터베이스 컬럼 정보를 직접 줄 수 있다. ex) varchar(100) default 'EMPTY'
+
+length(DDL) - 문자 길이 제약조건, String 타입에만 사용
+
+precision, scale(DDL) - BigDecimal 타입에서 사용 (BigInteger도 사용 가능)
+		 - precision은 소수점을 포함해 전체 자릿수를, scale은 소수의 자릿수를 의미
+		   double, float 타입에는 적용되지 않음. 아주 큰 숫자 혹은 정밀한 소수를 다룰 때만 사용
+
+
+
+@Enumerated
+
+value - EnumType.ORDINAL: enum 순서를 데이터베이스에 저장 (기본값)
+          EnumType.STRING: enum 이름을 데이터베이스에 저장
+
+          주의) EnumType.ORDINAL이 기본값이지만 사용하지 않는 편이 좋다.
+	     왜냐하면 ORDINAL은 0부터 필드에 수를 매기는 방식이므로 만약 필드의 순서가 바뀌면
+	     데이터가 꼬일 수도 있기 때문이다.
+
+@Temporal
+
+날짜 타입(java.util.Date, java.util.Calendar)을 매핑할 때 사용
+
+LocalDate, LocalDateTime을 사용할 시 생략 가능 (최신 하이버네이트에선 지원한다.)
+
+
+
+기본 키 매핑 어노테이션
+
+@Id
+
+@GeneratedValue
+
+
 
 
