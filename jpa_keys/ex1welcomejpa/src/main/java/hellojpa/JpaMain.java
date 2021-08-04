@@ -15,11 +15,26 @@ public class JpaMain {
         tx.begin();                                 //트랜젝션을 시작함
 
         try {                                       //Spring 을 함께 사용한다면 Spring 이 이러한 예외를 관리하므로
-            Member member = new Member();           //try catch 문을 생략할 수 있다.
+//            Member member = new Member();           //try catch 문을 생략할 수 있다.
 //            member.setId(1L);
 //            member.setName("HelloA");
 
             //em.persist(member);
+
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team);
+            em.persist(member);
+
+            Member findMember = em.find(Member.class, member.getId());
+
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam = " + findTeam.getName());
+
 
             tx.commit();                                //트랜젝션을 커밋
 
