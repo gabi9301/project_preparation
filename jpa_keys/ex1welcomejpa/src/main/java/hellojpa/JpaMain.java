@@ -28,11 +28,13 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
             em.persist(member);
 
-            em.flush();
-            em.clear();
+            team.addMember(member);
+
+//            team.getMembers().add(member);
+//            em.flush();
+//            em.clear();
 
             Member findMember = em.find(Member.class, member.getId());
 
