@@ -15,6 +15,10 @@ public class Member {
     private String street;
     private String zipcode;
 
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
