@@ -22,27 +22,25 @@ public class JpaMain {
 
             //em.persist(member);
 
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
 
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
-
-            team.addMember(member);
 
 //            team.getMembers().add(member);
 //            em.flush();
 //            em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbb");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
 
-            List<Member> members = findMember.getTeam().getMembers();
+            em.persist(movie);
 
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
-            }
+            em.flush();
+            em.clear();
+
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
 
             tx.commit();                                //트랜젝션을 커밋
 
