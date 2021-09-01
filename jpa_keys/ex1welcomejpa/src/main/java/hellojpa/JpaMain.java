@@ -37,18 +37,47 @@ public class JpaMain {
 //
 //            em.persist(movie);
 
+//            Member member = new Member();
+//            member.setUsername("user1");
+//            member.setCreatedBy("lee");
+//            member.setCreatedDate(LocalDateTime.now());
+//
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear();
+
+//            Movie findMovie = em.find(Movie.class, movie.getId());
+//            System.out.println("findMovie = " + findMovie);
+
+//            Member member = em.find(Member.class, 1L);
+//
+//              printUser(member);
+              
+//            printMemberAndTeam(member);
+
             Member member = new Member();
-            member.setUsername("user1");
-            member.setCreatedBy("lee");
-            member.setCreatedDate(LocalDateTime.now());
+            member.setUsername("hello");
 
             em.persist(member);
 
             em.flush();
             em.clear();
 
-//            Movie findMovie = em.find(Movie.class, movie.getId());
-//            System.out.println("findMovie = " + findMovie);
+            ///
+//            Member findMember = em.find(Member.class, member.getId());
+
+            Member findMember = em.getReference(Member.class, member.getId());
+
+            System.out.println("before findMember = " + findMember.getClass());
+            System.out.println("findMember.username = " + findMember.getUsername());
+            System.out.println("after findMember = " + findMember.getClass());
+
+//            System.out.println("findMember = " + findMember.getClass());
+//            System.out.println("findMember.Id = " + findMember.getId());
+//            System.out.println("findMember.getUsername = " + findMember.getUsername());
+
+
 
             tx.commit();                                //트랜젝션을 커밋
 
@@ -61,4 +90,17 @@ public class JpaMain {
 
         emf.close();        //웹 애플리케이션의 경우 WAS 가 내려갈 때 EntityManagerFactory 를 닫아줘야 함
     }
+
+//    private static void printUser(Member member) {
+//        System.out.println("member.getUsername() = " + member.getUsername());
+//    }
+//
+//    private static void printMemberAndTeam(Member member) {
+//
+//        String username = member.getUsername();
+//        System.out.println("username = " + username);
+//
+//        Team team = member.getTeam();
+//        System.out.println("team.getName() = " + team.getName());
+//    }
 }
