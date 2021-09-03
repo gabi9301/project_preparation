@@ -56,22 +56,34 @@ public class JpaMain {
               
 //            printMemberAndTeam(member);
 
-            Member member = new Member();
-            member.setUsername("hello");
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
-            em.persist(member);
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setTeam(team);
+
+            em.persist(member1);
 
             em.flush();
             em.clear();
 
+            Member m = em.find(Member.class, member1.getId());
+            System.out.println("m = " + m.getTeam().getClass());
+
+            System.out.println(" ==================== ");
+            m.getTeam().getName();
+            System.out.println(" ==================== ");
+
             ///
 //            Member findMember = em.find(Member.class, member.getId());
 
-            Member findMember = em.getReference(Member.class, member.getId());
-
-            System.out.println("before findMember = " + findMember.getClass());
-            System.out.println("findMember.username = " + findMember.getUsername());
-            System.out.println("after findMember = " + findMember.getClass());
+//            Member findMember = em.getReference(Member.class, member.getId());
+//
+//            System.out.println("before findMember = " + findMember.getClass());
+//            System.out.println("findMember.username = " + findMember.getUsername());
+//            System.out.println("after findMember = " + findMember.getClass());
 
 //            System.out.println("findMember = " + findMember.getClass());
 //            System.out.println("findMember.Id = " + findMember.getId());
@@ -82,6 +94,7 @@ public class JpaMain {
             tx.commit();                                //트랜젝션을 커밋
 
         } catch (Exception e){
+            e.printStackTrace();
             tx.rollback();                              //문제가 발생하면 롤백
 
         } finally {
