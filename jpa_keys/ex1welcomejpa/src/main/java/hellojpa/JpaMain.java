@@ -6,6 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -110,14 +111,52 @@ public class JpaMain {
 //
 //            em.remove(findParent);
 
+//            Member member = new Member();
+//            member.setUsername("hello");
+//            member.setHomeAddress(new Address("city","street","100"));
+//            member.setWorkPeriod(new Period());
+//
+//            em.persist(member);
+
             Member member = new Member();
-            member.setUsername("hello");
-            member.setHomeAddress(new Address("city","street","100"));
-            member.setWorkPeriod(new Period());
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("homeCity","street","1000"));
+
+            member.getFavoriteFoods().add("돈까스");
+            member.getFavoriteFoods().add("초밥");
+            member.getFavoriteFoods().add("김치찌개");
+
+            member.getAddressHistory().add(new AddressEntity("old1","street","1000"));
+            member.getAddressHistory().add(new AddressEntity("old2","street","1000"));
 
             em.persist(member);
 
+            em.flush();
+            em.clear();
 
+            System.out.println(" ======START====== ");
+
+            Member findMember = em.find(Member.class, member.getId());
+
+//            List<Address> addressHistory = findMember.getAddressHistory();
+//            for (Address address : addressHistory) {
+//                System.out.println("address = " + address.getCity());
+//            }
+//
+//            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+//            for (String favoriteFood : favoriteFoods) {
+//                System.out.println("favoriteFood = " + favoriteFood);
+//            }
+//            Address old = findMember.getHomeAddress();
+
+            //homeCity => newCity
+//            findMember.setHomeAddress(new Address("newCity", old.getStreet(), old.getZipcode()));
+//
+//            findMember.getFavoriteFoods().remove("돈까스");
+//            findMember.getFavoriteFoods().add("까르보나라");
+
+//            findMember.getAddressHistory().remove(new AddressEntity("old1","street","1000"));
+//            findMember.getAddressHistory().add(new AddressEntity("newCity1","street","1000"));
 
 
             tx.commit();                                //트랜젝션을 커밋
