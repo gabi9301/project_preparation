@@ -12,10 +12,14 @@ public class JpqlMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setAge(20);
-            em.persist(member);
+
+            for (int i=0; i < 100; i ++){
+                Member member = new Member();
+                member.setUsername("member" + i);
+                member.setAge(i);
+                em.persist(member);
+            }
+
 
 //            TypedQuery<Member> query = em.createQuery("select m from Member m", Member.class);
 //            List<Member> resultList = query.getResultList();
@@ -24,17 +28,30 @@ public class JpqlMain {
 //                System.out.println("member1 = " + member1);
 //            }
 
-            TypedQuery<MemberDTO> query = em.createQuery(
-                    "select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class);
+//            TypedQuery<MemberDTO> query = em.createQuery(
+//                    "select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class);
+//
+//            List<MemberDTO> result = query.getResultList();
+//
+//            MemberDTO memberDTO = result.get(0);
+//
+//
+//            System.out.println("username = " + memberDTO.getUsername());
+//            System.out.println("age = " + memberDTO.getAge());
 
-            List<MemberDTO> result = query.getResultList();
+            em.flush();
+            em.clear();
 
-            MemberDTO memberDTO = result.get(0);
+            List<Member> result = em.createQuery("SELECT m FROM Member m ORDER BY m.age DESC", Member.class)
+                    .setFirstResult(1)
+                    .setMaxResults(10)
+                    .getResultList();
 
+            System.out.println("result.size = " + result.size());
 
-            System.out.println("username = " + memberDTO.getUsername());
-            System.out.println("age = " + memberDTO.getAge());
-
+            for (Member member : result) {
+                System.out.println("member = " + member);
+            }
 
             tx.commit();
         }catch (Exception e) {
