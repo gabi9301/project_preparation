@@ -12,13 +12,18 @@ public class JpqlMain {
         tx.begin();
 
         try {
+                Team team = new Team();
+                team.setName("teamA");
+                em.persist(team);
 
-            for (int i=0; i < 100; i ++){
                 Member member = new Member();
-                member.setUsername("member" + i);
-                member.setAge(i);
+                member.setUsername("member");
+                member.setAge(10);
+                member.setTeam(team);
+
+
                 em.persist(member);
-            }
+
 
 
 //            TypedQuery<Member> query = em.createQuery("select m from Member m", Member.class);
@@ -42,16 +47,18 @@ public class JpqlMain {
             em.flush();
             em.clear();
 
-            List<Member> result = em.createQuery("SELECT m FROM Member m ORDER BY m.age DESC", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
+            //String query = "SELECT m FROM Member m ORDER BY m.age DESC";
+            String query = "SELECT m FROM Member m LEFT JOIN m.team t";
+            List<Member> result = em.createQuery(query, Member.class)
+//                    .setFirstResult(1)
+//                    .setMaxResults(10)
                     .getResultList();
 
-            System.out.println("result.size = " + result.size());
-
-            for (Member member : result) {
-                System.out.println("member = " + member);
-            }
+//            System.out.println("result.size = " + result.size());
+//
+//            for (Member member : result) {
+//                System.out.println("member = " + member);
+//            }
 
             tx.commit();
         }catch (Exception e) {
